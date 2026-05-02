@@ -1,0 +1,43 @@
+---
+alwaysApply: true
+---
+# Frontend QA schedule generator
+
+Use **Bun** for installs and scripts (`bun install`, `bun run dev`, `bun run test`, etc.).
+
+## Stack (do not swap without a reason)
+
+- **Vite 5**, **React 19**, **TypeScript**, **Tailwind CSS v4** (`tailwindcss`, `@tailwindcss/vite`, `@import "tailwindcss"` in CSS)
+- **Vitest 3**, **React Testing Library**, **happy-dom** (test env), **Zod** at untrusted boundaries / JSON shape checks
+
+## Stack conventions (common pitfalls)
+
+- **Vite** — Use `import.meta.env` for build-time env; keep `vite.config` changes purposeful. Prefer static `import` for tree-shaking; avoid relying on Node-only APIs in browser-bound code without a guard or server-only split.
+- **React 19** — Function components + hooks only. Derive state with `useMemo` / narrow effects when dependencies are stable; avoid synchronizing two sources of truth for the same UI fact. Lists need **stable** `key` values (never array index for domain rows). Prefer composition over prop drilling across feature boundaries (context or small hooks at orchestration layer).
+- **TypeScript** — No `any` at boundaries; prefer `unknown` + narrowing. Use `satisfies` for wide literals (configs, fixtures). Shared domain types live near `pipeline` / contracts, not inside presentational components.
+- **Tailwind v4** — Single CSS entry with `@import "tailwindcss"`; extend tokens via `@theme` instead of scattering magic numbers. Prefer utilities and existing patterns over one-off arbitrary values repeated in many files. Do not import CSS into `src/pipeline/` (see Layers).
+- **Vitest** — `vi` mocks at module boundaries (fetch, clock) not deep inside pipeline internals unless testing time. Use `expect` with specific matchers; avoid overly broad snapshots for domain output—prefer structured assertions on `PipelineResult`.
+- **RTL** — Query **by role / accessible name** (`getByRole`, `getByLabelText`) before `testId`. Use `@testing-library/user-event` for interactions. Async UI: `findBy*` or `waitFor` with a single clear expectation; do not wrap unrelated assertions in one `waitFor`.
+- **Zod** — Schemas at **untrusted edges** (fetch, file import, localStorage). Use `.safeParse`, branch on `success`, then work with typed `data`. Reuse/refine schemas rather than duplicating field lists; keep transforms minimal and documented.
+
+## Layers (strict)
+
+- **`src/pipeline/`** — pure TypeScript: no `react`, no DOM APIs, no Tailwind/CSS imports. Parsing, football rules, validation, dedupe, stable sort, ID generation, `runPipeline` live here.
+- **`src/infrastructure/`** — I/O only: fetch/fixtures/export/scrape adapters. Returns raw source; does not interpret “what is a football match.”
+- **`src/features/`**, **`src/app/`** — UI: Tailwind for layout/components; orchestration via hooks; call pipeline/infrastructure, do not embed schedule parsing or business rules in presentational pieces.
+
+Boundary shape: infrastructure → `RawScheduleSource` → `runPipeline(source)` → UI consumes `PipelineResult`.
+
+## Data and determinism
+
+- Do **not** invent scores, scorers, lineups, or teams. Use `null` / empty structures per the output contract when unknown.
+- Generated match identity and ordering must be **deterministic**: no `Date.now()`, random UUIDs, or unstable array-index IDs for domain objects.
+
+## Tests
+
+- Pipeline: unit tests + fixture-based runs (Vitest).
+- UI: RTL for loading, error, empty, success, export where relevant.
+
+## Docs
+
+- When behavior or data assumptions change, update **`README.md`** briefly: data source, parsing, ordering, assumptions, limits.
