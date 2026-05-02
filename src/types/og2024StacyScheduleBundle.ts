@@ -1,6 +1,6 @@
 /**
- * Merged Stacy OG2024 football schedule payloads for `fetchScheduleSource` / fixtures
- * (same HTTP chain as in `dopasowanie-zrodel-danych.md`: A1 + A2×D + A4 + A5 + A6×U).
+ * Merged Stacy OG2024 football payloads for `fetchScheduleSource` / fixtures.
+ * HTTP shape mirrors `dopasowanie-zrodel-danych.md` (Days-by-discipline + daily H2H + MIS + GLO + RES per unit).
  *
  * Nested JSON matches `stacy.olympics.com` OG2024 responses; fields not needed for typing
  * stay loose (`unknown`) until the pipeline narrows them.
@@ -40,11 +40,14 @@ export interface Og2024StacyScheduleBundle {
   competition: "OG2024";
   discipline: "FBL";
   lang: string;
-  a1SchDaysByDiscipline: Og2024SchDaysByDisciplineBody;
-  /** Keys are calendar dates from A1 (`YYYY-MM-DD`). */
-  a2SchByDisciplineH2HByDate: Record<string, Og2024SchByDisciplineH2HBody>;
-  a4MisParticipantNames: Og2024MisParticipantNamesBody;
-  a5GloPositions: Og2024GloPositionsBody;
-  /** Keys are full unit codes (`FBLMTEAM11------------GPB-000100--`, …). */
-  a6ResByRscH2hByUnitCode: Record<string, Og2024ResByRscH2hBody>;
+  /** Stacy `SCH_DaysByDiscipline` — which calendar days exist for FBL (drives daily schedule fetches). */
+  calendarDaysByDiscipline: Og2024SchDaysByDisciplineBody;
+  /** Stacy `SCH_ByDisciplineH2H~date=…` per day; keys are `YYYY-MM-DD` from `calendarDaysByDiscipline`. */
+  dailyMatchScheduleByDate: Record<string, Og2024SchByDisciplineH2HBody>;
+  /** Stacy `MIS_ParticipantNames` — resolve person/team codes to display strings. */
+  participantNames: Og2024MisParticipantNamesBody;
+  /** Stacy `GLO_Positions` — e.g. `MF` → "Midfielder". */
+  positionLabels: Og2024GloPositionsBody;
+  /** Stacy `RES_ByRSC_H2H` root per full Olympic unit code (play-by-play, lineups, …). */
+  matchResultsByUnitCode: Record<string, Og2024ResByRscH2hBody>;
 }

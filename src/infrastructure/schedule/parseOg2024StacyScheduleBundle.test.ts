@@ -19,10 +19,10 @@ describe("parseOg2024StacyScheduleBundle", () => {
     expect(out.ok).toBe(true);
     if (!out.ok) return;
     expect(out.value.schemaVersion).toBe(1);
-    expect(out.value.a1SchDaysByDiscipline.competition_schedule).toHaveLength(1);
-    expect(Object.keys(out.value.a2SchByDisciplineH2HByDate)).toEqual(["2024-07-24"]);
-    expect(out.value.a2SchByDisciplineH2HByDate["2024-07-24"]?.schedules).toHaveLength(1);
-    expect(out.value.a6ResByRscH2hByUnitCode["FBLMTEAM11------------GPB-000100--"]).toBeDefined();
+    expect(out.value.calendarDaysByDiscipline.competition_schedule).toHaveLength(1);
+    expect(Object.keys(out.value.dailyMatchScheduleByDate)).toEqual(["2024-07-24"]);
+    expect(out.value.dailyMatchScheduleByDate["2024-07-24"]?.schedules).toHaveLength(1);
+    expect(out.value.matchResultsByUnitCode["FBLMTEAM11------------GPB-000100--"]).toBeDefined();
   });
 });
 

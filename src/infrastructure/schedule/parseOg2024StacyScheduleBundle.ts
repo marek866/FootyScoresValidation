@@ -40,11 +40,11 @@ export const og2024StacyScheduleBundleSchema = z.object({
   competition: z.literal("OG2024"),
   discipline: z.literal("FBL"),
   lang: z.string(),
-  a1SchDaysByDiscipline: schDaysByDisciplineSchema,
-  a2SchByDisciplineH2HByDate: z.record(z.string(), schByDisciplineH2HSchema),
-  a4MisParticipantNames: misParticipantNamesSchema,
-  a5GloPositions: gloPositionsSchema,
-  a6ResByRscH2hByUnitCode: z.record(z.string(), z.record(z.string(), z.unknown())),
+  calendarDaysByDiscipline: schDaysByDisciplineSchema,
+  dailyMatchScheduleByDate: z.record(z.string(), schByDisciplineH2HSchema),
+  participantNames: misParticipantNamesSchema,
+  positionLabels: gloPositionsSchema,
+  matchResultsByUnitCode: z.record(z.string(), z.record(z.string(), z.unknown())),
 });
 
 export function parseOg2024StacyScheduleBundle(data: unknown):
