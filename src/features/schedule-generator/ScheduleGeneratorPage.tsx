@@ -10,7 +10,7 @@ export function ScheduleGeneratorPage() {
 
   return (
     <main className="min-h-screen bg-slate-100 px-4 py-8 text-slate-900">
-      <div className="mx-auto max-w-6xl space-y-6">
+      <div className="mx-auto max-w-7xl space-y-6">
         <ScheduleGeneratorHeader />
 
         <PipelineControls
