@@ -1,24 +1,10 @@
-import { readFileSync } from "node:fs";
-import { dirname, join } from "node:path";
-import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 
-import { parseOg2024StacyScheduleBundle } from "../infrastructure/schedule/parseOg2024StacyScheduleBundle.ts";
+import { loadFixtureSource } from "../infrastructure/loadFixtureSource.ts";
 import { parseGeneratedExpectedMatch } from "../types/generatedMatch.zod.ts";
 import type { Og2024StacyScheduleBundle } from "../types/og2024StacyScheduleBundle.ts";
 import type { RawScheduleSource } from "../types/pipeline.ts";
 import { runPipeline } from "./runPipeline.ts";
-
-const __dirname = dirname(fileURLToPath(import.meta.url));
-
-function loadBundle(): Og2024StacyScheduleBundle {
-  const raw = JSON.parse(
-    readFileSync(join(__dirname, "../fixtures/og2024-stacy-schedule-bundle.min.json"), "utf-8"),
-  ) as unknown;
-  const parsed = parseOg2024StacyScheduleBundle(raw);
-  if (parsed.ok) return parsed.value;
-  throw new Error("Invalid minimal Stacy fixture");
-}
 
 function sourceFor(bundle: Og2024StacyScheduleBundle): RawScheduleSource<Og2024StacyScheduleBundle> {
   return {
@@ -30,7 +16,7 @@ function sourceFor(bundle: Og2024StacyScheduleBundle): RawScheduleSource<Og2024S
 
 describe("runPipeline", () => {
   it("generates the assignment JSON shape from the minimal Stacy bundle", () => {
-    const result = runPipeline(sourceFor(loadBundle()));
+    const result = runPipeline(loadFixtureSource());
 
     expect(result.status).toBe("success");
     expect(result.rawEventCount).toBe(1);
@@ -49,7 +35,7 @@ describe("runPipeline", () => {
   });
 
   it("removes duplicate unit codes without changing generated output", () => {
-    const bundle = loadBundle();
+    const bundle = structuredClone(loadFixtureSource().payload);
     const dateBundle = bundle.dailyMatchScheduleByDate["2024-07-24"];
     if (!dateBundle) throw new Error("Fixture day missing");
 

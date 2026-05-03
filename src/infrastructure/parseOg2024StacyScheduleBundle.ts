@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import type { Og2024StacyScheduleBundle } from "../../types/og2024StacyScheduleBundle.ts";
+import type { Og2024StacyScheduleBundle } from "../types/og2024StacyScheduleBundle.ts";
 
 const schDaysByDisciplineSchema = z.object({
   competition_schedule: z.array(

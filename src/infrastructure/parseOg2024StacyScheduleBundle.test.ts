@@ -3,7 +3,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 
-import { parseGeneratedExpectedMatch } from "../../types/generatedMatch.zod.ts";
+import { parseGeneratedExpectedMatch } from "../types/generatedMatch.zod.ts";
 import { parseOg2024StacyScheduleBundle } from "./parseOg2024StacyScheduleBundle.ts";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
