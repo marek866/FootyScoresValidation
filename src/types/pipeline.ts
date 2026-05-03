@@ -31,20 +31,18 @@ export interface ParsedScheduleEvent {
 
 export interface NormalizedFootballMatch {
   id: string;
-  competitionName: "Olympic Games";
-  season: "Paris 2024";
   round: string;
   kickoff: string;
   status: string;
   venue: {
     name: string | null;
-    city: string | null;
   };
   teams: {
     home: string;
     away: string;
   };
-  sourceIds: string[];
+  result: string;
+  apiEndpoint: string;
 }
 
 export interface PipelineIssue {

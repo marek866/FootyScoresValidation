@@ -81,17 +81,17 @@ export function toMatchBuild(
   if (round == null) round = "Unknown round";
   const status = statusFrom(results, row);
   const id = stableMatchId(code);
+  const score = scoreFromPeriods(periods);
 
   const match: NormalizedFootballMatch = {
     id,
-    competitionName: "Olympic Games",
-    season: "Paris 2024",
     round,
     kickoff,
     status,
-    venue,
+    venue: { name: venue.name },
     teams: { home, away },
-    sourceIds: [code],
+    result: formatFullTimeResult(score),
+    apiEndpoint: "",
   };
 
   return {
@@ -106,7 +106,7 @@ export function toMatchBuild(
       kickoff,
       status,
       teams: { home, away },
-      score: scoreFromPeriods(periods),
+      score,
       scorers: scorersFromPlayByPlay(results, dictionaries, teamByCode),
       lineups: {
         home: lineupFromItem(homeItem, "home", dictionaries),
@@ -259,6 +259,11 @@ function scorerFromAction(
   return row;
 }
 
+function formatFullTimeResult(score: GeneratedExpectedMatch["score"]): string {
+  if (score.home !== null && score.away !== null) return `${score.home}-${score.away}`;
+  return "—";
+}
+
 // Reads final and half-time scores from Olympic period rows.
 function scoreFromPeriods(periods: unknown[]): GeneratedExpectedMatch["score"] {
   const periodRows = periods.filter(isRecord);
@@ -276,7 +281,7 @@ function scoreFromPeriods(periods: unknown[]): GeneratedExpectedMatch["score"] {
 }
 
 // Chooses venue fields from detailed RES data first, falling back to the schedule row.
-function venueFrom(results: JsonRecord | null, row: JsonRecord): NormalizedFootballMatch["venue"] {
+function venueFrom(results: JsonRecord | null, row: JsonRecord): GeneratedExpectedMatch["venue"] {
   const schedule = recordAt(results, "schedule");
   const location = recordAt(schedule, "location") ?? recordAt(row, "location");
   const citySource = stringAt(location, "longDescription") ?? stringAt(location, "description");

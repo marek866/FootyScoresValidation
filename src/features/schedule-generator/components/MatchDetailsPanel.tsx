@@ -21,12 +21,10 @@ export function MatchDetailsPanel({ match, generated }: MatchDetailsPanelProps) 
       <div className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
         <h2 className="font-semibold text-slate-900">Selected match</h2>
         <dl className="mt-3 grid gap-3 text-sm sm:grid-cols-2">
-          <Detail label="Match ID" value={match.id} />
-          <Detail label="Status" value={match.status} />
           <Detail label="Teams" value={`${match.teams.home} vs ${match.teams.away}`} />
-          <Detail label="Venue" value={match.venue.name ?? "Unknown"} />
-          <Detail label="City" value={match.venue.city ?? "Unknown"} />
-          <Detail label="Source IDs" value={match.sourceIds.join(", ")} />
+          <Detail label="Result" value={match.result} />
+          <Detail label="Status" value={match.status} />
+          <Detail label="API endpoint" value={match.apiEndpoint || "—"} />
         </dl>
       </div>
 

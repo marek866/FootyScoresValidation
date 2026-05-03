@@ -28,9 +28,8 @@ export function MatchTable({
             <tr>
               <th className="px-4 py-3">Kickoff</th>
               <th className="px-4 py-3">Round</th>
-              <th className="px-4 py-3">Home</th>
-              <th className="px-4 py-3">Away</th>
-              <th className="px-4 py-3">Venue</th>
+              <th className="px-4 py-3">Match</th>
+              <th className="px-4 py-3">Endpoint</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
@@ -65,9 +64,12 @@ function MatchRow({
     >
       <td className="whitespace-nowrap px-4 py-3 text-slate-700">{match.kickoff}</td>
       <td className="px-4 py-3 text-slate-700">{match.round}</td>
-      <td className="px-4 py-3 font-medium text-slate-900">{match.teams.home}</td>
-      <td className="px-4 py-3 font-medium text-slate-900">{match.teams.away}</td>
-      <td className="px-4 py-3 text-slate-700">{match.venue.name ?? "Unknown"}</td>
+      <td className="px-4 py-3 font-medium text-slate-900">
+        {match.teams.home} vs {match.teams.away}
+      </td>
+      <td className="max-w-xs break-all px-4 py-3 font-mono text-xs text-slate-700">
+        {match.apiEndpoint || "—"}
+      </td>
     </tr>
   );
 }

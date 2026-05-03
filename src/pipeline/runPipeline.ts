@@ -1,6 +1,7 @@
 import type { Og2024StacyScheduleBundle } from "../types/og2024StacyScheduleBundle.ts";
 import type { NormalizedFootballMatch, PipelineIssue, PipelineResult, RawScheduleSource } from "../types/pipeline.ts";
 import { buildDictionaries, toMatchBuild, type MatchBuild } from "./og2024MatchBuild.ts";
+import { collectDuplicateEndpointIssues, generateEndpoint } from "./matchEndpoint.ts";
 import { dedupeByCode, getScheduleRows } from "./scheduleRows.ts";
 
 // Main pure pipeline: schedule rows -> unique matches -> example-like JSON output.
@@ -17,9 +18,13 @@ export function runPipeline(
     .filter((build): build is MatchBuild => build !== null)
     .sort((a, b) => compareMatches(a.match, b.match));
 
+  const matches = built.map((item) => addEndpoint(item.match, issues));
+  const generated = built.map((item) => item.generated);
+  collectDuplicateEndpointIssues(matches, issues);
+
   const status = issues.some((issue) => issue.severity === "error")
     ? "error"
-    : built.length > 0
+    : matches.length > 0
       ? "success"
       : "empty";
 
@@ -33,9 +38,27 @@ export function runPipeline(
     parsedEventCount: rows.length,
     footballEventCount: uniqueRows.length,
     duplicateCount: rows.length - uniqueRows.length,
-    matches: built.map((item) => item.match),
-    generated: built.map((item) => item.generated),
+    matches,
+    generated,
     issues,
+  };
+}
+
+function addEndpoint(match: NormalizedFootballMatch, issues: PipelineIssue[]): NormalizedFootballMatch {
+  const apiEndpoint = generateEndpoint(match);
+
+  if (apiEndpoint === null) {
+    issues.push({
+      severity: "error",
+      code: "invalid-api-endpoint",
+      message: `Could not derive API endpoint from kickoff "${match.kickoff}" for match ${match.id}.`,
+      matchId: match.id,
+    });
+  }
+
+  return {
+    ...match,
+    apiEndpoint: apiEndpoint ?? "",
   };
 }
 

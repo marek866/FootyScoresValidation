@@ -23,6 +23,11 @@ describe("runPipeline", () => {
     expect(result.duplicateCount).toBe(0);
     expect(result.matches).toHaveLength(1);
     expect(result.generated).toHaveLength(1);
+    expect(result.matches[0]?.apiEndpoint).toBe(
+      "/api/v1/matches/paris-2024-football/2024-07-24-1500-argentina-vs-morocco",
+    );
+    expect(result.matches[0]?.result).toBe("1-2");
+    expect(result.issues.some((i) => i.code === "duplicate-api-endpoint")).toBe(false);
 
     const generated = result.generated[0];
     expect(parseGeneratedExpectedMatch(generated).ok).toBe(true);
