@@ -1,20 +1,25 @@
+import type { GeneratedExpectedMatch } from "../../../types/generatedMatch.ts";
 import type { NormalizedFootballMatch } from "../../../types/pipeline.ts";
+import { ExportJsonButton } from "./ExportJsonButton.tsx";
 
 interface MatchTableProps {
   matches: NormalizedFootballMatch[];
+  generated: GeneratedExpectedMatch[];
   selectedMatchId: string | null;
   onSelectMatch: (matchId: string) => void;
 }
 
 export function MatchTable({
   matches,
+  generated,
   selectedMatchId,
   onSelectMatch,
 }: MatchTableProps) {
   return (
     <section className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
-      <div className="border-b border-slate-200 px-4 py-3">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 px-4 py-3">
         <h2 className="font-semibold text-slate-900">Matches</h2>
+        <ExportJsonButton generated={generated} />
       </div>
 
       <div className="overflow-x-auto">

@@ -20,7 +20,7 @@ export interface ScheduleGeneratorState {
 
 export function useScheduleGenerator(): ScheduleGeneratorState {
   const [status, setStatus] = useState<PipelineStatus>("idle");
-  const [sourceMode, setSourceMode] = useState<SourceMode>("fixture");
+  const [sourceMode, setSourceMode] = useState<SourceMode>("remote");
   const [result, setResult] = useState<PipelineResult | null>(null);
   const [selectedMatchId, setSelectedMatchId] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);

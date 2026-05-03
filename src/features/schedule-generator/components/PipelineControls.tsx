@@ -24,18 +24,18 @@ export function PipelineControls({
             onChange={(event) => onSourceModeChange(event.target.value as SourceMode)}
             disabled={isLoading}
           >
-            <option value="fixture">Fixture demo</option>
             <option value="remote">Remote Olympic feed</option>
+            <option value="fixture">Fixture demo</option>
           </select>
         </label>
 
         <button
           type="button"
-          className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white disabled:cursor-not-allowed disabled:bg-slate-400"
+          className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white disabled:cursor-not-allowed disabled:bg-slate-400 cursor-pointer"
           onClick={onLoad}
           disabled={isLoading}
         >
-          {isLoading ? "Loading..." : "Load schedule"}
+          {isLoading ? "Loading..." : "Generate schedule"}
         </button>
       </div>
     </section>

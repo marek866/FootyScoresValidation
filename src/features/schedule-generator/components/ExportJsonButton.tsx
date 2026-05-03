@@ -15,7 +15,7 @@ export function ExportJsonButton({ generated }: ExportJsonButtonProps) {
       onClick={() => downloadJson("generated-football-matches.json", generated)}
       disabled={isDisabled}
     >
-      Export JSON
+      Export full dataset (JSON)
     </button>
   );
 }

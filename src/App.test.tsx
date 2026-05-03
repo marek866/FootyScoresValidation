@@ -6,7 +6,7 @@ describe("App", () => {
   it("renders the main heading", () => {
     render(<App />);
     expect(
-      screen.getByRole("heading", { name: /footy scraper validator/i }),
+      screen.getByRole("heading", { name: /olympic football data generator/i }),
     ).toBeInTheDocument();
   });
 });
