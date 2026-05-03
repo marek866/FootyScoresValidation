@@ -9,7 +9,7 @@ import { parseOg2024StacyScheduleBundle } from "./parseOg2024StacyScheduleBundle
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 function readFixtureJson(name: string): unknown {
-  return JSON.parse(readFileSync(join(__dirname, "../../fixtures", name), "utf-8")) as unknown;
+  return JSON.parse(readFileSync(join(__dirname, "../fixtures", name), "utf-8")) as unknown;
 }
 
 describe("parseOg2024StacyScheduleBundle", () => {

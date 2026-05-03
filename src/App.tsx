@@ -1,11 +1,7 @@
-import "./App.css";
+import { ScheduleGeneratorPage } from "./features/schedule-generator/ScheduleGeneratorPage.tsx";
 
 function App() {
-  return (
-    <div>
-      <h1>Footy Scraper Validator</h1>
-    </div>
-  );
+  return <ScheduleGeneratorPage />;
 }
 
 export default App;
