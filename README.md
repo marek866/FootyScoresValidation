@@ -28,3 +28,7 @@ Vite 5, React, TypeScript, Tailwind CSS v4 (`@tailwindcss/vite`), Vitest 3, Reac
 - Data source and parsing assumptions
 - Ordering rules for generated output
 - Known limitations
+
+## UI export (JSON)
+
+“Export full dataset” downloads an array of `{ endpoint, expectedResponse }`, where `endpoint` is each match’s `apiEndpoint` and `expectedResponse` is the list of `GeneratedExpectedMatch` objects for that path (same index pairing as `PipelineResult.matches` / `.generated`; multiple matches can share one endpoint). Entries are sorted by `endpoint` for stable output.
