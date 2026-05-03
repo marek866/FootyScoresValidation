@@ -171,8 +171,18 @@ function lineupFromItem(
     team: teamLabel != null ? teamLabel : side,
     formation: entryValue(arrayAt(item, "eventUnitEntries"), "FORMATION"),
     coach: coachName(item),
-    startingXI: players.filter((player) => starters.has(player.nameCode)),
-    bench: players.filter((player) => !starters.has(player.nameCode)),
+    startingXI: players.filter((player) => starters.has(player.nameCode)).map(stripNameCode),
+    bench: players.filter((player) => !starters.has(player.nameCode)).map(stripNameCode),
+  };
+}
+
+type InternalLineupPlayer = GeneratedLineup["startingXI"][number] & { nameCode: string };
+
+function stripNameCode(player: InternalLineupPlayer): GeneratedLineup["startingXI"][number] {
+  return {
+    name: player.name,
+    number: player.number,
+    position: player.position,
   };
 }
 
@@ -180,7 +190,7 @@ function lineupFromItem(
 function playerFromAthlete(
   athleteRow: JsonRecord,
   dictionaries: Dictionaries,
-): (GeneratedLineup["startingXI"][number] & { nameCode: string }) | null {
+): InternalLineupPlayer | null {
   const athlete = recordAt(athleteRow, "athlete");
   let code = stringAt(athleteRow, "participantCode");
   if (code == null) code = stringAt(athlete, "code");

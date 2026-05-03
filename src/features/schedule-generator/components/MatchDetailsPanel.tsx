@@ -28,7 +28,7 @@ export function MatchDetailsPanel({ match, generated }: MatchDetailsPanelProps) 
         </dl>
       </div>
 
-      <GeneratedJsonPreview data={generated} />
+      <GeneratedJsonPreview data={generated} exportFileName={`generated-${match.apiEndpoint}.json`} />
     </section>
   );
 }

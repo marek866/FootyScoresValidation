@@ -37,6 +37,11 @@ describe("runPipeline", () => {
     expect(generated.scorers.map((scorer) => scorer.minute)).toEqual([45, 49, 68]);
     expect(generated.lineups.home?.startingXI).toHaveLength(11);
     expect(generated.lineups.away?.startingXI).toHaveLength(11);
+    expect(generated.lineups.home?.startingXI[0]).toEqual({
+      name: "Geronimo Rulli",
+      number: 1,
+      position: "GK",
+    });
   });
 
   it("removes duplicate unit codes without changing generated output", () => {
