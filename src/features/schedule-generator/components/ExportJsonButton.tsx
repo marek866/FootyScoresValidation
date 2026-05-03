@@ -5,7 +5,7 @@ import type { NormalizedFootballMatch } from "../../../types/pipeline.ts";
 
 /** Shared with other export controls (e.g. preview header). */
 export const exportJsonButtonClassName =
-  "rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-800 shadow-sm disabled:cursor-not-allowed disabled:text-slate-400 cursor-pointer";
+  "rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-800 disabled:cursor-not-allowed disabled:text-slate-400 cursor-pointer";
 
 interface ExportJsonButtonProps {
   matches: NormalizedFootballMatch[];
