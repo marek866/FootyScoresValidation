@@ -31,4 +31,4 @@ Vite 5, React, TypeScript, Tailwind CSS v4 (`@tailwindcss/vite`), Vitest 3, Reac
 
 ## UI export (JSON)
 
-“Export full dataset” downloads an array of `{ endpoint, expectedResponse }`, where `endpoint` is each match’s `apiEndpoint` and `expectedResponse` is the list of `GeneratedExpectedMatch` objects for that path (same index pairing as `PipelineResult.matches` / `.generated`; multiple matches can share one endpoint). Entries are sorted by `endpoint` for stable output.
+“Export full dataset” downloads an array of `{ endpoint, expectedResponse }`, where `endpoint` is each match’s `apiEndpoint` and `expectedResponse` is the list of `GeneratedExpectedMatch` objects for that path (same index pairing as `PipelineResult.matches` / `.generated`; multiple matches can share one endpoint). Entries are sorted by `endpoint` for stable output. Synthetic REST paths look like `/api/v1/matches/paris-2024-football/{men|women|unknown}/DATE-TIME-home-vs-away`, where `men` / `women` come from the Olympic unit code prefix (`FBLM…` / `FBLW…`) on `NormalizedFootballMatch.competitionGender`, and `unknown` is used if the prefix is not recognized.

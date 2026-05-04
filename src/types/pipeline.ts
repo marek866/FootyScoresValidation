@@ -29,8 +29,11 @@ export interface ParsedScheduleEvent {
   status: string | null;
 }
 
+export type FootballCompetitionGender = "men" | "women";
+
 export interface NormalizedFootballMatch {
   id: string;
+  competitionGender: FootballCompetitionGender | null;
   round: string;
   kickoff: string;
   status: string;

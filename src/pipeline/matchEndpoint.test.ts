@@ -11,6 +11,7 @@ import {
 function baseMatch(overrides: Partial<NormalizedFootballMatch>): NormalizedFootballMatch {
   return {
     id: "test-id",
+    competitionGender: "men",
     round: "Group B",
     kickoff: "2024-07-24T15:00:00+02:00",
     status: "Finished",
@@ -47,10 +48,24 @@ describe("formatKickoffForEndpoint", () => {
 });
 
 describe("generateEndpoint", () => {
-  it("builds the recommended Paris 2024 football path", () => {
+  it("builds the recommended Paris 2024 football path with gender segment", () => {
     const path = generateEndpoint(baseMatch({}));
     expect(path).toBe(
-      "/api/v1/matches/paris-2024-football/2024-07-24-1500-argentina-vs-morocco",
+      "/api/v1/matches/paris-2024-football/men/2024-07-24-1500-argentina-vs-morocco",
+    );
+  });
+
+  it("uses women segment when competitionGender is women", () => {
+    const path = generateEndpoint(baseMatch({ competitionGender: "women" }));
+    expect(path).toBe(
+      "/api/v1/matches/paris-2024-football/women/2024-07-24-1500-argentina-vs-morocco",
+    );
+  });
+
+  it("uses unknown segment when competitionGender is null", () => {
+    const path = generateEndpoint(baseMatch({ competitionGender: null }));
+    expect(path).toBe(
+      "/api/v1/matches/paris-2024-football/unknown/2024-07-24-1500-argentina-vs-morocco",
     );
   });
 
@@ -62,7 +77,7 @@ describe("generateEndpoint", () => {
 describe("collectDuplicateEndpointIssues", () => {
   it("adds an error issue when two matches share the same apiEndpoint", () => {
     const issues: PipelineIssue[] = [];
-    const dup = "/api/v1/matches/paris-2024-football/2024-07-24-1500-a-vs-b";
+    const dup = "/api/v1/matches/paris-2024-football/men/2024-07-24-1500-a-vs-b";
     const matches: NormalizedFootballMatch[] = [
       baseMatch({ id: "m1", apiEndpoint: dup }),
       baseMatch({ id: "m2", apiEndpoint: dup, teams: { home: "Other", away: "Side" } }),

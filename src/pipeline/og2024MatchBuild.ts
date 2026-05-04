@@ -10,7 +10,7 @@ import {
   recordAt,
   stringAt,
 } from "./jsonRecord.ts";
-import { matchCode, stableMatchId } from "./matchIdentity.ts";
+import { footballCompetitionGenderFromUnitCode, matchCode, stableMatchId } from "./matchIdentity.ts";
 
 export interface Dictionaries {
   personNameByCode: Map<string, string>;
@@ -82,9 +82,11 @@ export function toMatchBuild(
   const status = statusFrom(results, row);
   const id = stableMatchId(code);
   const score = scoreFromPeriods(periods);
+  const competitionGender = footballCompetitionGenderFromUnitCode(code);
 
   const match: NormalizedFootballMatch = {
     id,
+    competitionGender,
     round,
     kickoff,
     status,

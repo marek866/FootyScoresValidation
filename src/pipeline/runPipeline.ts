@@ -63,10 +63,17 @@ function addEndpoint(match: NormalizedFootballMatch, issues: PipelineIssue[]): N
 }
 
 // Final deterministic output ordering: kickoff, round, teams, venue, then stable id.
+function genderSortKey(g: NormalizedFootballMatch["competitionGender"]): number {
+  if (g === "men") return 0;
+  if (g === "women") return 1;
+  return 2;
+}
+
 function compareMatches(a: NormalizedFootballMatch, b: NormalizedFootballMatch): number {
   return (
     a.kickoff.localeCompare(b.kickoff) ||
     a.round.localeCompare(b.round) ||
+    genderSortKey(a.competitionGender) - genderSortKey(b.competitionGender) ||
     a.teams.home.localeCompare(b.teams.home) ||
     a.teams.away.localeCompare(b.teams.away) ||
     (a.venue.name ?? "").localeCompare(b.venue.name ?? "") ||

@@ -28,6 +28,7 @@ export function MatchTable({
             <tr>
               <th className="px-4 py-3">Kickoff</th>
               <th className="px-4 py-3">Round</th>
+              <th className="px-4 py-3">Gender</th>
               <th className="px-4 py-3">Match</th>
               <th className="px-4 py-3">Endpoint</th>
             </tr>
@@ -64,6 +65,13 @@ function MatchRow({
     >
       <td className="whitespace-nowrap px-4 py-3 text-slate-700">{match.kickoff}</td>
       <td className="px-4 py-3 text-slate-700">{match.round}</td>
+      <td className="whitespace-nowrap px-4 py-3 text-slate-700">
+        {match.competitionGender === "men"
+          ? "Men"
+          : match.competitionGender === "women"
+            ? "Women"
+            : "—"}
+      </td>
       <td className="px-4 py-3 font-medium text-slate-900">
         {match.teams.home} vs {match.teams.away}
       </td>

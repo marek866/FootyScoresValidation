@@ -19,6 +19,10 @@ export function formatKickoffForEndpoint(kickoff: string): { date: string; time:
   return { date: m[1]!, time: `${m[2]!}${m[3]!}` };
 }
 
+function endpointGenderSegment(gender: NormalizedFootballMatch["competitionGender"]): string {
+  return gender ?? "unknown";
+}
+
 export function generateEndpoint(match: NormalizedFootballMatch): string | null {
   const parsed = formatKickoffForEndpoint(match.kickoff);
   if (!parsed) return null;
@@ -26,7 +30,8 @@ export function generateEndpoint(match: NormalizedFootballMatch): string | null 
   const away = slugify(match.teams.away);
   if (!home || !away) return null;
 
-  return `/api/v1/matches/paris-2024-football/${parsed.date}-${parsed.time}-${home}-vs-${away}`;
+  const branch = endpointGenderSegment(match.competitionGender);
+  return `/api/v1/matches/paris-2024-football/${branch}/${parsed.date}-${parsed.time}-${home}-vs-${away}`;
 }
 
 export function collectDuplicateEndpointIssues(matches: NormalizedFootballMatch[], issues: PipelineIssue[]): void {

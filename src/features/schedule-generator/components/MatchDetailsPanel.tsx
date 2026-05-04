@@ -22,13 +22,23 @@ export function MatchDetailsPanel({ match, generated }: MatchDetailsPanelProps) 
         <h2 className="font-semibold text-slate-900">Selected match</h2>
         <dl className="mt-3 grid gap-3 text-sm sm:grid-cols-2">
           <Detail label="Teams" value={`${match.teams.home} vs ${match.teams.away}`} />
+          <Detail
+            label="Competition"
+            value={
+              match.competitionGender === "men"
+                ? "Men's football"
+                : match.competitionGender === "women"
+                  ? "Women's football"
+                  : "Unknown"
+            }
+          />
           <Detail label="Result" value={match.result} />
           <Detail label="Status" value={match.status} />
           <Detail label="API endpoint" value={match.apiEndpoint || "—"} />
         </dl>
       </div>
 
-      <GeneratedJsonPreview data={generated} exportFileName={`generated-${match.apiEndpoint}.json`} />
+      <GeneratedJsonPreview data={generated} exportFileName={`${match.apiEndpoint}.json`} />
     </section>
   );
 }
