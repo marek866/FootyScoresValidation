@@ -3,7 +3,7 @@ alwaysApply: true
 ---
 # Frontend QA schedule generator
 
-Use **Bun** for installs and scripts (`bun install`, `bun run dev`, `bun run test`, etc.).
+Use **npm** for installs and scripts (`npm install`, `npm run dev`, `npm run test`, etc.).
 
 ## Stack (do not swap without a reason)
 

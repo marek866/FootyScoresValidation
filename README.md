@@ -4,14 +4,15 @@ Olympic football (Paris 2024 / OG2024) schedule → expected API paths and JSON 
 
 ## Requirements
 
-- [Bun](https://bun.sh/) 1.1+ (package manager and runtime)
+- [Node.js](https://nodejs.org/) 20+ (use the current LTS or newer)
+- npm (bundled with Node)
 
 ## Install and run
 
 ```bash
 cd my-app
-bun install
-bun run dev
+npm install
+npm run dev
 ```
 
 Open the URL Vite prints (usually `http://localhost:5173`). Use **Load schedule** after choosing **Remote** (live Stacy data) or **Fixture** (small bundled sample, works offline).
@@ -20,17 +21,17 @@ Other commands:
 
 | Command            | Description                  |
 | ------------------ | ---------------------------- |
-| `bun run build`    | Typecheck + production build |
-| `bun run preview`  | Serve the production build locally |
-| `bun run test:run` | Tests once (CI)              |
-| `bun run lint`     | ESLint                       |
-| `bun run format`   | Prettier (write)             |
+| `npm run build`    | Typecheck + production build |
+| `npm run preview`  | Serve the production build locally |
+| `npm run test:run` | Tests once (CI)              |
+| `npm run lint`     | ESLint                       |
+| `npm run format`   | Prettier (write)             |
 
 ## Deploy (static site)
 
 The app is a normal Vite SPA: one HTML shell plus JS. There is no custom server.
 
-1. Build: `bun run build` (output in `dist/`).
+1. Build: `npm run build` (output in `dist/`).
 2. Host `dist/` on any static host (Netlify, Vercel, GitHub Pages, S3, nginx, etc.): upload the folder and point the host’s “publish directory” to `dist`.
 
 **SPA routing:** this app uses the default `/` route only; no extra rewrite rules are required.
