@@ -35,7 +35,7 @@ export function runPipeline(
       retrievedAt: source.retrievedAt,
     },
     rawEventCount: rows.length,
-    parsedEventCount: rows.length,
+    parsedEventCount: built.length,
     footballEventCount: uniqueRows.length,
     duplicateCount: rows.length - uniqueRows.length,
     matches,
