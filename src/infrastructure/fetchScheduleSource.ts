@@ -22,7 +22,7 @@ export async function fetchScheduleSource(signal?: AbortSignal): Promise<
     ]),
   );
   const dailyMatchScheduleByDate = Object.fromEntries(
-    dailyEntries,
+    dailyEntries.map(([date, schedule]) => [date, withoutVictoryUnits(schedule)]),
   ) as Og2024StacyScheduleBundle["dailyMatchScheduleByDate"];
 
   const unitCodes = [
@@ -77,7 +77,25 @@ async function get(path: string, signal?: AbortSignal): Promise<unknown> {
   return res.json() as Promise<unknown>;
 }
 
+function withoutVictoryUnits(schedule: unknown): unknown {
+  if (typeof schedule !== "object" || schedule === null) return schedule;
+
+  const body = schedule as Record<string, unknown>;
+  if (!Array.isArray(body.schedules)) return schedule;
+
+  return {
+    ...body,
+    schedules: body.schedules.filter((row) => !isVictoryUnitCode(scheduleUnitCode(row))),
+  };
+}
+
 function unitCode(row: unknown): string | null {
+  const code = scheduleUnitCode(row);
+  if (isVictoryUnitCode(code)) return null;
+  return code;
+}
+
+function scheduleUnitCode(row: unknown): string | null {
   if (typeof row !== "object" || row === null) return null;
   const r = row as Record<string, unknown>;
   if ((r.discipline as Record<string, unknown> | undefined)?.code !== "FBL") return null;
@@ -85,4 +103,8 @@ function unitCode(row: unknown): string | null {
   const resultRsc = (r.eventUnit as Record<string, unknown> | undefined)?.resultRSC;
   const code = typeof resultRsc === "string" ? resultRsc : r.code;
   return typeof code === "string" && code.trim() ? code.trim() : null;
+}
+
+function isVictoryUnitCode(code: string | null): boolean {
+  return code?.startsWith("FBLMTEAM11------------VICT") === true || code?.startsWith("FBLWTEAM11------------VICT") === true;
 }

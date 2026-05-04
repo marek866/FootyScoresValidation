@@ -21,6 +21,7 @@ describe("fetchScheduleSource", () => {
 
   it("builds the minimal bundle", async () => {
     const unitCode = "FBLMTEAM11------------GPB-000100--";
+    const victoryUnitCode = "FBLMTEAM11------------VICTMEDAL---";
     const responses = [
       {
         competition_schedule: [
@@ -33,7 +34,10 @@ describe("fetchScheduleSource", () => {
         ],
       },
       {
-        schedules: [{ discipline: { code: "FBL" }, code: unitCode, eventUnit: { resultRSC: unitCode } }],
+        schedules: [
+          { discipline: { code: "FBL" }, code: unitCode, eventUnit: { resultRSC: unitCode } },
+          { discipline: { code: "FBL" }, code: victoryUnitCode, eventUnit: { resultRSC: victoryUnitCode } },
+        ],
       },
       { persons: [], teams: [], horses: [] },
       { positions: [{ code: "GK", description: "Goalkeeper" }] },
@@ -47,6 +51,8 @@ describe("fetchScheduleSource", () => {
     expect(source.retrievedAt).not.toBe(null);
     expect(fetchMock).toHaveBeenCalledTimes(5);
     expect(source.payload.dailyMatchScheduleByDate["2024-07-24"]).toBeDefined();
+    expect(source.payload.dailyMatchScheduleByDate["2024-07-24"]?.schedules).toHaveLength(1);
     expect(source.payload.matchResultsByUnitCode[unitCode]).toBeDefined();
+    expect(source.payload.matchResultsByUnitCode[victoryUnitCode]).toBeUndefined();
   });
 });
