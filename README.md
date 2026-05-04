@@ -85,3 +85,7 @@ We do not invent scores, lineups, or teams: unknown fields follow the `Generated
 ## Stack
 
 Vite 5, React, TypeScript, Tailwind CSS v4, Vitest 3, React Testing Library, happy-dom, Zod.
+
+---
+
+**AI tooling:** this repository was developed with assistance from **Cursor** and large language models—for example drafting and revising code, refactors, and documentation—alongside manual review and running tests by the author.
