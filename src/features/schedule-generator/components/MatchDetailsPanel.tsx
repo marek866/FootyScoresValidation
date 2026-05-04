@@ -1,5 +1,6 @@
 import type { GeneratedExpectedMatch } from "../../../types/generatedMatch.ts";
 import type { NormalizedFootballMatch } from "../../../types/pipeline.ts";
+import { CompareApiPanel } from "./CompareApiPanel.tsx";
 import { GeneratedJsonPreview } from "./GeneratedJsonPreview.tsx";
 
 interface MatchDetailsPanelProps {
@@ -39,6 +40,8 @@ export function MatchDetailsPanel({ match, generated }: MatchDetailsPanelProps) 
       </div>
 
       <GeneratedJsonPreview data={generated} exportFileName={`${match.apiEndpoint}.json`} />
+
+      <CompareApiPanel expected={generated} />
     </section>
   );
 }

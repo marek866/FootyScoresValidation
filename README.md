@@ -39,8 +39,8 @@ The app is a normal Vite SPA: one HTML shell plus JS. There is no custom server.
 
 ## Where the data comes from
 
-The assignment points at the official schedule page:  
-https://stacy.olympics.com/en/paris-2024/competition-schedule  
+The assignment points at the official schedule page:
+https://stacy.olympics.com/en/paris-2024/competition-schedule
 
 That page is backed by the same Stacy JSON API this app uses. We do **not** scrape HTML. `fetchScheduleSource` loads several JSON files from:
 
@@ -82,10 +82,14 @@ We do not invent scores, lineups, or teams: unknown fields follow the `Generated
 
 `men` / `women` come from the Olympic unit code prefix when known; `unknown` if not recognised.
 
+## Bonus: compare with live API
+
+After you load the schedule, select a match in the table. The details panel includes **Compare with tested API**: paste the **full JSON URL** for that match (e.g. FootyScores), click **Compare**. The app fetches the response and runs a **deep structural diff** against the generated expected payload (`compareJson` in `src/pipeline/compareJson.ts`). If the browser blocks the request (**CORS**), use a host/API that allows your origin or add a proxy (not included here)—same limitation as any SPA calling a third-party API. This bonus was drafted demonstratively with Cursor prompt (AI-assisted) and kept intentionally minimal.
+
 ## Stack
 
 Vite 5, React, TypeScript, Tailwind CSS v4, Vitest 3, React Testing Library, happy-dom, Zod.
 
 ---
 
-**AI tooling:** this repository was developed with assistance from **Cursor** and large language models—for example drafting and revising code, refactors, and documentation—alongside manual review and running tests by the author.
+**AI tooling:** this repository was developed with assistance from **Cursor** and large language models—for example drafting and revising code, generate tests, refactors, and documentation—alongside manual review and running tests by the author.
